@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f3eff0">
+<title>Marília Aroma e Luxo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3eff0; --panel:#fff; --line:#e3d9dd; --soft:#faf7f8;
+  --wine:#6b2340; --wine2:#8a3354; --rose:#e9d3db; --txt:#2a1f24; --muted:#857880;
+  --ok:#3f8f63; --warn:#b7791f; --err:#b83c3c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100dvh}
+body{background:var(--bg);color:var(--txt);font-family:'Figtree',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}
+header{padding:calc(env(safe-area-inset-top) + 44px) 20px 26px;max-width:1200px;margin:0 auto}
+header h1{font-family:'Bodoni Moda',serif;font-style:italic;font-weight:500;font-size:clamp(3rem,11vw,5.2rem);line-height:.95;color:var(--wine);letter-spacing:-.01em}
+header h1 small{display:block;font-family:'Figtree',sans-serif;font-style:normal;font-weight:500;font-size:clamp(.72rem,2.6vw,.9rem);letter-spacing:.38em;text-transform:uppercase;color:var(--txt);margin-top:10px;padding-left:.2em}
+header p{color:var(--muted);margin-top:10px;font-size:1rem;max-width:44ch;line-height:1.5}
+.search{max-width:1200px;margin:0 auto 12px;padding:0 20px}
+.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:12px 18px;outline:none;font-size:16px}
+.search input:focus{border-color:var(--wine)}
+.filters{display:flex;gap:8px;overflow-x:auto;padding:0 20px 18px;max-width:1200px;margin:0 auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--panel);padding:8px 16px;border-radius:999px;font-size:.88rem;color:var(--muted);cursor:pointer}
+.chip.on{background:var(--wine);color:#fff;border-color:var(--wine)}
+main{max-width:1200px;margin:0 auto;padding:0 20px calc(env(safe-area-inset-bottom) + 40px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:16px 12px}
+.card{background:none;border:0;cursor:pointer;text-align:left;padding:0;display:flex;flex-direction:column}
+.card:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+.card .ph{aspect-ratio:4/5;background:var(--rose) center/cover no-repeat;border-radius:14px 14px 14px 2px;position:relative}
+.card .tag{position:absolute;top:8px;left:8px;background:#fff;color:var(--warn);font-size:.72rem;padding:3px 9px;border-radius:999px;font-weight:500}
+.card .info{padding:8px 2px 0}
+.card .nm{font-size:.92rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .pr{font-weight:600;color:var(--wine);margin-top:3px}
+.empty{text-align:center;color:var(--muted);padding:60px 0}
+.ov{position:fixed;inset:0;background:rgba(42,31,36,.45);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.ov.on{display:flex}
+.sheet{background:var(--panel);width:100%;max-width:560px;max-height:94dvh;overflow-y:auto;border-radius:20px 20px 0 0;padding-bottom:calc(env(safe-area-inset-bottom) + 20px);animation:up .25s ease}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+@media(prefers-reduced-motion:reduce){.sheet{animation:none}}
+@media(min-width:700px){.ov{align-items:center}.sheet{border-radius:16px}}
+.gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;background:var(--soft)}
+.gal img{flex:none;width:100%;aspect-ratio:4/5;object-fit:contain;scroll-snap-align:start}
+.dots{display:flex;justify-content:center;gap:6px;padding:10px 0 0}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--wine)}
+.body{padding:18px 20px}
+.body h2{font-family:'Bodoni Moda',serif;font-weight:500;font-size:1.7rem;line-height:1.15}
+.body .pr{font-size:1.4rem;color:var(--wine);font-weight:600;margin:6px 0 12px}
+.body .ds{color:#4c4046;line-height:1.6;white-space:pre-wrap;font-size:.95rem}
+.fld{margin-top:14px}
+.fld label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:5px}
+.fld input,.fld textarea{width:100%;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px;outline:none;font-size:16px}
+.fld input:focus,.fld textarea:focus{border-color:var(--wine)}
+.btn{display:block;width:100%;border:0;border-radius:999px;padding:14px;background:var(--wine);color:#fff;font-weight:600;margin-top:18px;cursor:pointer;font-size:1rem}
+.btn:disabled{opacity:.5}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--txt);margin-top:10px}
+.x{position:sticky;top:0;float:right;margin:10px;background:rgba(255,255,255,.92);border:1px solid var(--line);width:36px;height:36px;border-radius:50%;cursor:pointer;z-index:2}
+.note{font-size:.85rem;color:var(--muted);margin-top:10px;line-height:1.5}
+.done{text-align:center;padding:10px 0}
+.done h3{font-family:'Bodoni Moda',serif;font-style:italic;font-size:1.8rem;font-weight:500;color:var(--wine)}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="lojaNome">Marília<small>Aroma e Luxo</small></h1>
+  <p id="lojaSub">Semijoias, perfumes importados e achados para você. Reserve e confirmamos pelo WhatsApp.</p>
+</header>
+<div class="search"><input id="q" type="search" placeholder="Buscar produto" aria-label="Buscar produto"></div>
+<div class="filters" id="filters"></div>
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Carregando produtos…</div>
+</main>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, query, where, getDocs, doc, getDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// >>> COLE AQUI A CONFIG DO SEU PROJETO FIREBASE (a mesma no admin.html)
+const firebaseConfig = {
+  apiKey: "AIzaSyAosvL5iqvBKiigtPZ7SmtRFvZoApBvyHk",
+  authDomain: "marilia-loja.firebaseapp.com",
+  projectId: "marilia-loja",
+  storageBucket: "marilia-loja.firebasestorage.app",
+  messagingSenderId: "177612077044",
+  appId: "1:177612077044:web:c7993a1d7219c6ccf46ba1"
+};
+const db = getFirestore(initializeApp(firebaseConfig));
+
+const $ = s => document.querySelector(s);
+const brl = v => (Number(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let produtos=[], cat='Todos', cfg={nome:'Marília Aroma e Luxo',whats:''};
+
+async function load(){
+  $('#empty').hidden=false;
+  try{
+    const c = await getDoc(doc(db,'config','loja'));
+    if(c.exists()) cfg={...cfg,...c.data()};
+    {const n=(cfg.nome||'Marília Aroma e Luxo').trim(),i=n.indexOf(' ');$('#lojaNome').innerHTML=i>0?`${esc(n.slice(0,i))}<small>${esc(n.slice(i+1))}</small>`:esc(n);}
+    document.title=cfg.nome||'Marília Aroma e Luxo';
+    if(cfg.subtitulo) $('#lojaSub').textContent=cfg.subtitulo;
+    const snap = await getDocs(query(collection(db,'produtos'),where('status','in',['disponivel','reservado'])));
+    produtos = snap.docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.ativo!==false)
+      .sort((a,b)=>(b.criadoEm?.seconds||0)-(a.criadoEm?.seconds||0));
+    renderFilters(); render();
+  }catch(e){ console.error(e); $('#empty').textContent='Não foi possível carregar os produtos. Verifique sua conexão e recarregue a página.'; }
+}
+
+function renderFilters(){
+  const cats=['Todos',...new Set(produtos.map(p=>p.categoria).filter(Boolean))];
+  $('#filters').innerHTML=cats.length>2?cats.map(c=>`<button class="chip ${c===cat?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join(''):'';
+  $('#filters').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderFilters();render();});
+}
+
+function render(){
+  const q=$('#q').value.trim().toLowerCase();
+  const list=produtos.filter(p=>(cat==='Todos'||p.categoria===cat)&&(!q||(p.nome+' '+(p.descricao||'')).toLowerCase().includes(q)));
+  $('#grid').innerHTML=list.map(p=>`
+    <button class="card" data-id="${p.id}">
+      <div class="ph" style="background-image:url('${p.thumb||''}')">${p.status==='reservado'?'<span class="tag">Reservado</span>':''}</div>
+      <div class="info"><div class="nm">${esc(p.nome)}</div><div class="pr">${brl(p.preco)}</div></div>
+    </button>`).join('');
+  $('#empty').hidden=list.length>0;
+  if(!list.length) $('#empty').textContent=produtos.length?'Nenhum produto encontrado com esse filtro.':'Nenhum produto disponível no momento.';
+  $('#grid').querySelectorAll('.card').forEach(el=>el.onclick=()=>openProd(el.dataset.id));
+}
+$('#q').oninput=render;
+
+async function openProd(id){
+  const p=produtos.find(x=>x.id===id); if(!p) return;
+  const sh=$('#sheet');
+  sh.innerHTML=`<button class="x" aria-label="Fechar">✕</button>
+    <div class="gal" id="gal"><img src="${p.thumb}" alt=""></div><div class="dots" id="dots"></div>
+    <div class="body">
+      <h2>${esc(p.nome)}</h2><div class="pr">${brl(p.preco)}</div>
+      ${p.descricao?`<div class="ds">${esc(p.descricao)}</div>`:''}
+      ${p.status==='reservado'
+        ?`<p class="note">Este item já tem uma reserva em análise. Você pode entrar na fila caso a reserva atual não se confirme.</p>`:''}
+      <div class="fld"><label for="rn">Seu nome</label><input id="rn" autocomplete="name" maxlength="70"></div>
+      <div class="fld"><label for="rw">WhatsApp com DDD</label><input id="rw" inputmode="tel" autocomplete="tel" placeholder="(41) 99999-9999" maxlength="16"></div>
+      <div class="fld"><label for="ro">Observação (opcional)</label><textarea id="ro" rows="2" maxlength="280"></textarea></div>
+      <button class="btn" id="rb">${p.status==='reservado'?'Entrar na fila':'Reservar este item'}</button>
+      <p class="note">A reserva não é cobrança. Entraremos em contato para combinar pagamento e retirada.</p>
+    </div>`;
+  $('#ov').classList.add('on'); document.body.style.overflow='hidden';
+  sh.querySelector('.x').onclick=close;
+  $('#rw').oninput=e=>{let d=e.target.value.replace(/\D/g,'').slice(0,11);e.target.value=d.length>6?`(${d.slice(0,2)}) ${d.slice(2,d.length-4)}-${d.slice(-4)}`:d.length>2?`(${d.slice(0,2)}) ${d.slice(2)}`:d;};
+  $('#rb').onclick=()=>reservar(p);
+  // fotos em alta
+  try{
+    const im=await getDoc(doc(db,'produtos_img',id));
+    const imgs=im.exists()?(im.data().imgs||[]):[];
+    if(imgs.length){
+      $('#gal').innerHTML=imgs.map(s=>`<img src="${s}" alt="${esc(p.nome)}">`).join('');
+      if(imgs.length>1){
+        $('#dots').innerHTML=imgs.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('');
+        $('#gal').onscroll=e=>{const i=Math.round(e.target.scrollLeft/e.target.clientWidth);$('#dots').querySelectorAll('i').forEach((d,j)=>d.classList.toggle('on',i===j));};
+      }
+    }
+  }catch(e){}
+}
+function close(){ $('#ov').classList.remove('on'); document.body.style.overflow=''; }
+$('#ov').onclick=e=>{ if(e.target.id==='ov') close(); };
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+
+async function reservar(p){
+  const nome=$('#rn').value.trim(), whats=$('#rw').value.replace(/\D/g,''), obs=$('#ro').value.trim();
+  if(nome.length<2) return alert('Informe seu nome.');
+  if(whats.length<10) return alert('Informe um WhatsApp válido com DDD.');
+  $('#rb').disabled=true; $('#rb').textContent='Enviando…';
+  try{
+    await addDoc(collection(db,'reservas'),{produtoId:p.id,produtoNome:p.nome,preco:Number(p.preco)||0,clienteNome:nome,clienteWhats:whats,obs,status:'pendente',criadoEm:serverTimestamp()});
+    const msg=encodeURIComponent(`Olá! Acabei de reservar "${p.nome}" (${brl(p.preco)}) na loja. Meu nome é ${nome}.`);
+    $('#sheet').querySelector('.body').innerHTML=`<div class="done"><h3>Reserva enviada</h3>
+      <p class="note">Recebemos seu pedido para <b>${esc(p.nome)}</b>. Vamos te chamar no WhatsApp ${esc($('#rw').value)}.</p>
+      ${cfg.whats?`<a class="btn" style="text-decoration:none;text-align:center" href="https://wa.me/${cfg.whats.replace(/\D/g,'')}?text=${msg}" target="_blank" rel="noopener">Avisar pelo WhatsApp</a>`:''}
+      <button class="btn ghost" id="bk">Continuar vendo</button></div>`;
+    $('#bk').onclick=close;
+  }catch(e){ console.error(e); $('#rb').disabled=false; $('#rb').textContent='Tentar de novo'; alert('A reserva não foi enviada. Confira a conexão e tente de novo.'); }
+}
+load();
+</script>
+</body>
+</html>
